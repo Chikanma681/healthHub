@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, NavbarBrand, Container, Nav, NavLink, NavItem, Button } from 'reactstrap';
+import { Navbar, NavbarBrand, Container, Nav, Button } from 'reactstrap';
+import './../css/Header.css'
 
 const Header = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -27,23 +28,16 @@ const Header = () => {
     });
   };
 
-  const containerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-  };
-
   const brandStyle = {
     fontSize: '1.25rem', // Adjust font size as desired
-    marginRight: 'auto',
     color: '#ffffff', // Set text color to white
     textDecoration: 'none',
+    
   };
 
   const buttonStyle = {
     backgroundColor: '#1a1a1a',
     borderColor: 'transparent',
-    marginLeft: '20px',
     color: '#ffffff',
     textDecoration: 'none',
   };
@@ -52,13 +46,15 @@ const Header = () => {
     ...buttonStyle,
     color: '#646cff',
   };
+
   return (
-    <Navbar style={{ backgroundColor: '#242424', color: '#ffffff' }} dark expand="sm" >
-      <Container style={{ ...containerStyle, paddingTop: '0', paddingBottom: '0' }}>
+    <Navbar style={{ backgroundColor: '#242424', color: '#ffffff', width: '100%', top: 0}} dark expand="sm" >
+      <Container style={{ display: 'flex', alignItems: 'center', paddingTop: '0', paddingBottom: '0' , width:"100%"}}>
         <NavbarBrand href="/" style={brandStyle}>
-          <h4 style={{ fontWeight: '700', margin: '0' }}>ExploreYYC</h4>
+          <h4 style={{ fontWeight: '700',}}>MediCareYYC</h4>
         </NavbarBrand>
-        <Nav navbar className="ms-auto mb-lg-0">
+       <div>
+       <Nav className="ms-auto mb-lg-0">
             <button
               href="/menu"
               style={isMenuHovered ? hoveredButtonStyle : buttonStyle}
@@ -87,10 +83,10 @@ const Header = () => {
               </Button>
             )}
         </Nav>
+       </div>
       </Container>
     </Navbar>
   );
-  
 };
 
 export default Header;

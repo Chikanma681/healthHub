@@ -4,10 +4,12 @@ import viteLogo from '/vite.svg'
 import './App.css'
 // import HomeScreen from './screens/HomeScreen'
 import Header from './components/Header'
+import { Route, Routes, Navigate, Router } from "react-router-dom";
 import Animation from './components/Animation'
 import HomeScreen from './screens/HomeScreen'
 import Login from './screens/Login'
 import Signup from './screens/Signup'
+import Maps from './screens/Maps'
 // import CalgaryExplo from './components/Animation'
 
 function App() {
@@ -15,11 +17,13 @@ function App() {
 
   return (
     <>
-    <Signup/>
-    {/* <Login/> */}
-    {/* <HomeScreen/> */}
-    {/* <Header/> 
-    <Animation/> */}
+<Routes>
+<Route path="/" element={<HomeScreen />} />
+<Route path="/login" element={<Login />} />
+<Route path="/signup" element={<Signup/>}/>
+<Route path="/find" element={<Maps/>} />
+</Routes>
+
     </>
   )
 }

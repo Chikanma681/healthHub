@@ -86,7 +86,7 @@ const Signup = () => {
           id="firstname"
           name="first_name"
           style={inputStyle}
-          placeholder="Enter firstname"
+          placeholder="Enter first name"
           className="border-gray-400 focus:border-gray-600 focus:border-black rounded-full px-4 py-2 text-sm w-full"
           required
         />
@@ -97,7 +97,7 @@ const Signup = () => {
           id="lastname"
           name="last_name"
           style={inputStyle}
-          placeholder="Enter lastname"
+          placeholder="Enter last name"
           className="border-gray-400 focus:border-gray-600 focus:border-black rounded-full px-4 py-2 text-sm w-full"
           required
         />

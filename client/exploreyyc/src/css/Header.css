@@ -1,0 +1,26 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .brand-style {
+    font-size: 1.25rem;
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .button-style {
+    background-color: #1a1a1a;
+    border-color: transparent;
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .hovered-button-style {
+    color: #646cff;
+  }
+  

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 // import './Login.css'; // Import CSS file for custom styles
+import Header from '../components/Header';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -87,7 +88,9 @@ const focusedInputStyle = {
 
   return (
     <div className="login-page">
-      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Header className="mb-10"/>
+        <div>
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', marginTop: '100px' }}>
         <Row>
           <Col md={6}>
           <h6 className="text-center mb-4" style={{ fontWeight: "600px", fontSize: '2rem', color: 'black', marginBottom: "20px", marginTop:"50px"}}>Welcome, Login!</h6>
@@ -130,6 +133,8 @@ const focusedInputStyle = {
           </Col>
         </Row>
       </Container>
+        </div>
+     
     </div>
   );
 };
