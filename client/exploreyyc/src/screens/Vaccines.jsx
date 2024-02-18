@@ -1,39 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import Header from '../components/Header';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, CardImg } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardText } from 'reactstrap';
 
-
-const Maps = () => {
+const Vaccines = () => {
   const [currentPosition, setCurrentPosition] = useState(null);
-  const [selectedHospital, setSelectedHospital] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [closestHospital, setClosestHospital] = useState(null);
+  const [closestLocation, setClosestLocation] = useState(null);
 
-  const csvData = `TYPE,NAME,ADDRESS,COMM_CODE,LAT,LONG
-  Hospital,Alberta Children's Hospital,2888 Shaganappi Trail NW,UOC,-114.1479576,51.0745599
-  PHS Clinic,East Calgary Health Centre,4715 8 AV SE,FLN,-113.9672201,51.0450485
-  PHS Clinic,South Calgary Health Centre,31 Sunpark Plaza SE,SDC,-114.058575,50.9025753
-  PHS Clinic,Northwest Community Health Centre,109 1829 Ranchlands BV NW,RAN,-114.1971615,51.1233336
-  Hospital,Rockyview General Hospital,7007 - 14 ST SW,EAG,-114.0963207,50.9918289
-  PHS Clinic,North Hill Community Health Centre,1527 19 ST NW,HOU,-114.1065071,51.0653216
-  PHS Clinic,Thornhill Community Health Centre,6617 Centre ST NW,HUN,-114.0639146,51.1121862
-  PHS Clinic,Sheldon M. Chumir Health Centre,1213 - 4 ST SW,BLN,-114.0721296,51.0411634
-  Hospital,South Health Campus,4448 FRONT ST SE,SET,-113.9517038,50.8821019
-  PHS Clinic,Acadia Community Health Centre,151 - 86 AV SE,ACA,-114.0709401,50.975072
-  Hospital,Peter Lougheed Medical Centre,3500 - 26 AV NE,SUN,-113.9839435,51.0790163
-  PHS Clinic,Village Square Community Health Centre,2623 - 56 ST NE,PIN,-113.9535557,51.0755389
-  Hospital,Foothills Hospital,1403 - 29 ST NW,STA,-114.1321766,51.0641829
-  PHS Clinic,Shaganappi Complex Health Centre,3415 - 8 AV SW,SPR,-114.1368419,51.0448871`;
+  const vaccineCsvData = `ID,Address1,City,Phone,latitude,longitude
+  AB00004145,6213 CENTRE ST NW,CALGARY,403-274-2444,51.10788492,-114.0633693
+  AB00003431,28 PANATELLA BLVD NW,CALGARY,403-460-6707,51.16547718,-114.0712342
+  // Add more vaccine locations here...
+  AB00100077,80-10233 ELBOW DR SW,CALGARY,403-255-2354,50.96193461,-114.08581
+  AB00000071,4940 RICHMOND RD SW,CALGARY,403-299-4487,51.01911946,-114.1589891
+  AB00003872,110-8500 BLACKFOOT TR SE,CALGARY,403-253-5700,50.97661519,-114.046636
+  AB00001123,1711 4 ST SW,CALGARY,403-228-5067,51.0372509,-114.0717656
+  AB00003782,105-4411 16 AVE NW,CALGARY,403-247-9502,51.06805148,-114.1588588
+  AB00001177,700-2220 68 ST NE,C`;
 
   // Split the CSV data into rows
-  const rows = csvData.split('\n');
+  const rows = vaccineCsvData.split('\n');
 
   // Extract headers
   const headers = rows[0].split(',');
 
   // Initialize an array to store the objects
-  const dataList = [];
+  const locationDataList = [];
 
   // Parse each row (starting from index 1 as index 0 contains headers)
   for (let i = 1; i < rows.length; i++) {
@@ -42,7 +36,7 @@ const Maps = () => {
     for (let j = 0; j < headers.length; j++) {
       obj[headers[j]] = values[j];
     }
-    dataList.push(obj);
+    locationDataList.push(obj);
   }
 
   useEffect(() => {
@@ -51,7 +45,7 @@ const Maps = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setCurrentPosition({ lat: latitude, lng: longitude });
-          findClosestHospital({ lat: latitude, lng: longitude });
+          findClosestLocation({ lat: latitude, lng: longitude });
         },
         (error) => {
           console.error('Error getting current location:', error);
@@ -62,24 +56,24 @@ const Maps = () => {
     }
   }, []);
 
-  const findClosestHospital = (currentLocation) => {
+  const findClosestLocation = (currentLocation) => {
     let minDistance = Number.MAX_VALUE;
-    let closestHospital = null;
+    let closestLocation = null;
 
-    dataList.forEach((hospital) => {
+    locationDataList.forEach((location) => {
       const distance = calculateDistance(
         currentLocation.lat,
         currentLocation.lng,
-        parseFloat(hospital.LAT),
-        parseFloat(hospital.LONG)
+        parseFloat(location.latitude),
+        parseFloat(location.longitude)
       );
       if (distance < minDistance) {
         minDistance = distance;
-        closestHospital = hospital;
+        closestLocation = location;
       }
     });
 
-    setClosestHospital(closestHospital);
+    setClosestLocation(closestLocation);
   };
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -101,15 +95,15 @@ const Maps = () => {
 
   // Google Maps API Key
   const apiKey = 'AIzaSyDHGdazSoDmRV6aM7-zH0VQMhP8PLsfafk';
-//   console.log("POINT (-114.1368419 51.0448871)".split(' ')[1])
-//   console.log(dataList)
-const onMarkerClick = (hospital) => {
-    setSelectedHospital(hospital);
+
+  const onMarkerClick = (location) => {
+    setSelectedLocation(location);
   };
+
   return (
     <div>
       <Header />
-      <h6 className="text-center mx-auto" style={{ fontWeight: "300px", fontSize: '2rem', color: 'black', marginTop: "50px" }}>Hospitals & Clinic Near you</h6>
+      <h6 className="text-center mx-auto" style={{ fontWeight: "300px", fontSize: '2rem', color: 'black', marginTop: "50px" }}>Vaccination Sites Near You</h6>
       <div style={{ height: '400px', width: '100%', display: 'flex', justifyContent: 'center', backgroundColor: '#white', marginTop: '25px' }}>
         <LoadScript googleMapsApiKey={apiKey} onLoad={() => setMapLoaded(true)}>
           {mapLoaded && (
@@ -119,29 +113,30 @@ const onMarkerClick = (hospital) => {
               center={currentPosition}
             >
               {currentPosition && <Marker position={currentPosition} title="Your Location" />}
-              {dataList.map((hospital, index) => (
+              {locationDataList.map((location, index) => (
                 <Marker
                   key={index}
                   position={{
-                    lat: parseFloat(hospital.LONG),
-                    lng: parseFloat(hospital.LAT)
+                    lat: parseFloat(location.latitude),
+                    lng: parseFloat(location.longitude)
                   }}
                   icon={{
                     url: 'https://cdn-icons-png.flaticon.com/512/4320/4320350.png',
                     scaledSize: new window.google.maps.Size(40, 40)
                   }}
-                  title={hospital.NAME}
-                  onClick={() => onMarkerClick(hospital)}
+                  title={location.Address1}
+                  onClick={() => onMarkerClick(location)}
                 />
               ))}
-              {selectedHospital && (
+              {selectedLocation && (
                 <InfoWindow
-                  position={{ lat: parseFloat(selectedHospital.LONG), lng: parseFloat(selectedHospital.LAT) }}
-                  onCloseClick={() => setSelectedHospital(null)}
+                  position={{ lat: parseFloat(selectedLocation.latitude), lng: parseFloat(selectedLocation.longitude) }}
+                  onCloseClick={() => setSelectedLocation(null)}
                 >
                   <div style={{ color: "black" }}>
-                    <h3>{selectedHospital.NAME}</h3>
-                    <p>{selectedHospital.ADDRESS}</p>
+                    <h3>{selectedLocation.Address1}</h3>
+                    <p>{selectedLocation.City}</p>
+                    <p>{selectedLocation.Phone}</p>
                   </div>
                 </InfoWindow>
               )}
@@ -149,19 +144,23 @@ const onMarkerClick = (hospital) => {
           )}
         </LoadScript>
       </div>
-      {closestHospital && (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <Card border="dark" style={{ width: '18rem' }}>
+      {closestLocation && (
+        <div style={{ marginTop: '20px', width:"50%", marginBottom:"20px"}} className='mx-auto'>
+          <Card body >
+            <CardTitle tag="h5" style={{fontWeight:"500px"}}>Closest Vaccine Location</CardTitle>
             <CardBody>
-              <CardTitle tag="h5">Closest Hospital:</CardTitle>
-              <CardText><strong>Name: </strong>{closestHospital.NAME}</CardText>
-              <CardText><strong>Address: </strong> {closestHospital.ADDRESS}</CardText>
+              <CardText>
+                <strong>Name:</strong> {closestLocation.Address1}<br />
+                <strong>City:</strong> {closestLocation.City}<br />
+                <strong>Phone:</strong> {closestLocation.Phone}
+              </CardText>
             </CardBody>
           </Card>
         </div>
       )}
+
     </div>
   );
 }
 
-export default Maps;
+export default Vaccines;

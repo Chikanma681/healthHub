@@ -13,6 +13,7 @@ import Maps from './screens/Maps'
 import BookingPage from './screens/BookingPage'
 import Features from './screens/Features'
 import { data } from 'browserslist'
+import Vaccines from './screens/Vaccines'
 // import CalgaryExplo from './components/Animation'
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
 <Route path="/signup" element={<Signup/>}/>
 <Route path="/maps" element={<Maps/>} />
 <Route path="/features" element={<Features/>} />
+<Route path="/vaccines" element={<Vaccines/>}/>
 </Routes>
 
     </>

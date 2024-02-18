@@ -68,7 +68,7 @@ const Header = () => {
             </button>
           </Link>
 
-            {isAuth ? (
+            {/* {isAuth ? (
               <Button
                 style={isLoginHovered ? hoveredButtonStyle : buttonStyle}
                 onClick={handleSignOut}
@@ -86,7 +86,7 @@ const Header = () => {
               >
                 <strong>Login</strong>
               </Button>
-            )}
+            )} */}
           </Nav>
         </div>
       </Container>

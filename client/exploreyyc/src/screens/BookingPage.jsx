@@ -391,7 +391,7 @@ END:VCALENDAR`;
                   </Input>
                 </FormGroup>
               )}
-              <Button type="submit"><strong>Book Appointment</strong></Button>
+              <Button type="submit" onMouseEnter={(e) => e.target.style.backgroundColor = '#646cff'} onMouseLeave={(e) => e.target.style.backgroundColor = 'black'}><strong>Book Appointment</strong></Button>
             </Form>
           </Col>
         </Row>
