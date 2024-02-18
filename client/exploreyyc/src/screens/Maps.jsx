@@ -6,6 +6,7 @@ const Maps = () => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [closestHospital, setClosestHospital] = useState(null);
 
   const csvData = `TYPE,NAME,ADDRESS,COMM_CODE,LAT,LONG
   Hospital,Alberta Children's Hospital,2888 Shaganappi Trail NW,UOC,-114.1479576,51.0745599
@@ -42,19 +43,59 @@ const Maps = () => {
     dataList.push(obj);
   }
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setCurrentPosition({ lat: latitude, lng: longitude });
-      },
-      (error) => {
-        console.error('Error getting current location:', error);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentPosition({ lat: latitude, lng: longitude });
+          findClosestHospital({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error('Error getting current location:', error);
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }, []);
+
+  const findClosestHospital = (currentLocation) => {
+    let minDistance = Number.MAX_VALUE;
+    let closestHospital = null;
+
+    dataList.forEach((hospital) => {
+      const distance = calculateDistance(
+        currentLocation.lat,
+        currentLocation.lng,
+        parseFloat(hospital.LAT),
+        parseFloat(hospital.LONG)
+      );
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestHospital = hospital;
       }
-    );
-  } else {
-    alert('Geolocation is not supported by this browser.');
-  }
+    });
+
+    setClosestHospital(closestHospital);
+  };
+
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1); // deg2rad below
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c; // Distance in km
+    return d;
+  };
+
+  const deg2rad = (deg) => {
+    return deg * (Math.PI / 180);
+  };
 
   // Google Maps API Key
   const apiKey = 'AIzaSyDHGdazSoDmRV6aM7-zH0VQMhP8PLsfafk';
@@ -105,6 +146,13 @@ const onMarkerClick = (hospital) => {
           )}
         </LoadScript>
       </div>
+      {closestHospital && (
+        <div style={{color:"black"}}>
+          <h2>Closest Hospital:</h2>
+          <p>Name: {closestHospital.NAME}</p>
+          <p>Address: {closestHospital.ADDRESS}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, NavbarBrand, Container, Nav, Button } from 'reactstrap';
 import './../css/Header.css'
+import { Link } from 'react-router-dom'; 
 
 const Header = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -40,6 +41,7 @@ const Header = () => {
     borderColor: 'transparent',
     color: '#ffffff',
     textDecoration: 'none',
+    marginRight: '10px', // Add right margin for spacing
   };
 
   const hoveredButtonStyle = {
@@ -53,9 +55,10 @@ const Header = () => {
         <NavbarBrand href="/" style={brandStyle}>
           <h4 style={{ fontWeight: '700',}}>MediCareYYC</h4>
         </NavbarBrand>
-       <div>
-       <Nav className="ms-auto mb-lg-0">
-            <button
+        <div style={{ marginLeft: 'auto' }}> {/* Aligns items to the right */}
+          <Nav className="ms-auto mb-lg-0">
+          <Link to="/features" style={{ textDecoration: 'none' }}>
+          <button
               href="/menu"
               style={isMenuHovered ? hoveredButtonStyle : buttonStyle}
               onMouseEnter={() => setIsMenuHovered(true)}
@@ -63,6 +66,8 @@ const Header = () => {
             >
               <strong>Explore</strong>
             </button>
+          </Link>
+
             {isAuth ? (
               <Button
                 style={isLoginHovered ? hoveredButtonStyle : buttonStyle}
@@ -82,8 +87,8 @@ const Header = () => {
                 <strong>Login</strong>
               </Button>
             )}
-        </Nav>
-       </div>
+          </Nav>
+        </div>
       </Container>
     </Navbar>
   );

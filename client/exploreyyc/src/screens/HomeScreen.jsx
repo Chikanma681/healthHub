@@ -1,73 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar, NavbarBrand, Container, Nav, Button } from 'reactstrap';
-import './../css/Header.css'
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useHistory
+import skyline from './../assets/skyline1.jpg';
 
-const Header = () => {
-  const [isAuth, setIsAuth] = useState(false);
-  const [isMenuHovered, setIsMenuHovered] = useState(false);
-  const [isLoginHovered, setIsLoginHovered] = useState(false);
+const HomeScreen = () => {
+  const navigate = useNavigate(); // Initialize usenavigate
 
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      setIsAuth(true);
-    }
-  }, []);
-
-  const handleSignIn = () => {
-    signInWithGoogle().then(() => {
-      localStorage.setItem('authToken', 'your_auth_token_here');
-      setIsAuth(true);
-    });
+  const containerStyle = {
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
-  const handleSignOut = () => {
-    logout().then(() => {
-      localStorage.removeItem('authToken');
-      setIsAuth(false);
-    });
+  const buttonStyle = {
+    backgroundColor: 'black',
+    color: 'white',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s',
+    margin: '10px',
+    border: 'none',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  };
+
+  const buttonHoverStyle = {
+    backgroundColor: '#646cff',
+  };
+
+  // Function to handle button click and redirect to signup page
+  const handleGetStartedClick = () => {
+    navigate('/signup'); // Redirect to signup page
   };
 
   return (
-    <Navbar className="navbar" dark expand="sm">
-      <Container style={{ display: 'flex', alignItems: 'center', paddingTop: '0', paddingBottom: '0' , width:"100%"}}>
-        <NavbarBrand href="/" className="brand-style">
-          <h4 style={{ fontWeight: '700',}}>MediCareYYC</h4>
-        </NavbarBrand>
-       <div>
-       <Nav className="ms-auto mb-lg-0">
-            <button
-              href="/menu"
-              className={isMenuHovered ? 'hovered-button-style' : 'button-style'}
-              onMouseEnter={() => setIsMenuHovered(true)}
-              onMouseLeave={() => setIsMenuHovered(false)}
-            >
-              <strong>Explore</strong>
-            </button>
-            {isAuth ? (
-              <Button
-                className={isLoginHovered ? 'hovered-button-style' : 'button-style'}
-                onClick={handleSignOut}
-                onMouseEnter={() => setIsLoginHovered(true)}
-                onMouseLeave={() => setIsLoginHovered(false)}
-              >
-                <strong>Logout</strong>
-              </Button>
-            ) : (
-              <Button
-                className={isLoginHovered ? 'hovered-button-style' : 'button-style'}
-                onClick={handleSignIn}
-                onMouseEnter={() => setIsLoginHovered(true)}
-                onMouseLeave={() => setIsLoginHovered(false)}
-              >
-                <strong>Login</strong>
-              </Button>
-            )}
-        </Nav>
-       </div>
-      </Container>
-    </Navbar>
+    <div className="home-screen bg-gray-100">
+      <div style={containerStyle} className="text-center">
+        <div className="max-w-lg">
+          <img src={skyline} alt="Calgary Skyline" className="mx-auto mt-8 mb-8" style={{ height: "500px", margin: "30px" }} />
+          <h1 className="text-3xl font-bold mb-1">Welcome to MediCareYYC</h1>
+          <p className="text-lg text-gray-800 mb-3">Explore your healthcare options in Calgary!</p>
+          <button
+            style={buttonStyle}
+            className="hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            onClick={handleGetStartedClick} // Call handleGetStartedClick function on button click
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#646cff'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'black'}
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Header;
+export default HomeScreen;
