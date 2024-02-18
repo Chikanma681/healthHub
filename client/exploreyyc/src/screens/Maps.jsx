@@ -153,7 +153,7 @@ const onMarkerClick = (hospital) => {
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
           <Card border="dark" style={{ width: '18rem' }}>
             <CardBody>
-              <CardTitle tag="h5">Closest Hospital:</CardTitle>
+              <CardTitle tag="h5">Suggested Hospital</CardTitle>
               <CardText><strong>Name: </strong>{closestHospital.NAME}</CardText>
               <CardText><strong>Address: </strong> {closestHospital.ADDRESS}</CardText>
             </CardBody>

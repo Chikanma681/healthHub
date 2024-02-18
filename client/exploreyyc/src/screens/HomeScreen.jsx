@@ -38,7 +38,7 @@ const HomeScreen = () => {
       <div style={containerStyle} className="text-center">
         <div className="max-w-lg">
           <img src={skyline} alt="Calgary Skyline" className="mx-auto mt-8 mb-8" style={{ height: "500px", margin: "30px" }} />
-          <h1 className="text-3xl font-bold mb-1">Welcome to MediCareYYC</h1>
+          <h1 className="text-3xl font-bold mb-1">Welcome to HealthHubYYC</h1>
           <p className="text-lg text-gray-800 mb-3">Explore your healthcare options in Calgary!</p>
           <button
             style={buttonStyle}

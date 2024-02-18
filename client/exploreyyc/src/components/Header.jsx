@@ -53,7 +53,7 @@ const Header = () => {
     <Navbar style={{ backgroundColor: '#242424', color: '#ffffff', width: '100%', top: 0}} dark expand="sm" >
       <Container style={{ display: 'flex', alignItems: 'center', paddingTop: '0', paddingBottom: '0' , width:"100%"}}>
         <NavbarBrand href="/" style={brandStyle}>
-          <h4 style={{ fontWeight: '700',}}>MediCareYYC</h4>
+          <h4 style={{ fontWeight: '700',}}>HealthHubYYC</h4>
         </NavbarBrand>
         <div style={{ marginLeft: 'auto' }}> {/* Aligns items to the right */}
           <Nav className="ms-auto mb-lg-0">
