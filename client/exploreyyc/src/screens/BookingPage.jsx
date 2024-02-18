@@ -1,5 +1,118 @@
+// // import React, { useState } from 'react';
+// // import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+// // import DatePicker from 'react-datepicker';
+// // import 'react-datepicker/dist/react-datepicker.css';
+// // import Header from '../components/Header';
+// // import "bootstrap/dist/css/bootstrap.css";
+
+// // const BookingPage = ({ hospitals }) => {
+// //   const [selectedHospital, setSelectedHospital] = useState(null);
+// //   const [selectedDate, setSelectedDate] = useState(null);
+// //   const [selectedTime, setSelectedTime] = useState(null);
+
+// //   const handleHospitalChange = (e) => {
+// //     setSelectedHospital(e.target.value);
+// //   };
+
+// //   const handleDateChange = (date) => {
+// //     setSelectedDate(date);
+// //     setSelectedTime(null); // Reset selected time when date changes
+// //   };
+
+// //   const handleTimeChange = (time) => {
+// //     setSelectedTime(time);
+// //   };
+
+// //   const handleSubmit = (e) => {
+// //     e.preventDefault();
+// //     // Handle form submission here
+// //     console.log('Form submitted:', selectedHospital, selectedDate, selectedTime);
+// //   };
+
+
+// //   // Generate time slots from 10am to 4pm with 30-minute intervals
+// //   const generateTimeSlots = () => {
+// //     const timeSlots = [];
+// //     let hour = 10;
+// //     let minute = 0;
+
+// //     while (hour < 16 || (hour === 16 && minute === 0)) {
+// //       const formattedTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+// //       timeSlots.push(formattedTime);
+// //       minute += 30;
+// //       if (minute === 60) {
+// //         hour += 1;
+// //         minute = 0;
+// //       }
+// //     }
+
+// //     return timeSlots;
+// //   };
+
+// //   return (
+// //     <div>
+// //         <Header />
+// //   <Container className="py-5">
+// //       <Row>
+// //         <Col md={{ size: 6, offset: 3 }}>
+// //           <h2 className="text-center mb-4">Book an Appointment</h2>
+// //           <Form onSubmit={handleSubmit}>
+// //             <FormGroup>
+// //               <Label for="hospitalSelect"><strong>Select Hospital</strong></Label>
+// //               <Input type="select" name="hospital" id="hospitalSelect" onChange={handleHospitalChange}>
+// //                 <option value="">Select Hospital</option>
+// //                 {hospitals.map((hospital, index) => (
+// //                   <option key={index} value={hospital.NAME}>
+// //                     {hospital.NAME}
+// //                   </option>
+// //                 ))}
+// //               </Input>
+// //             </FormGroup>
+// //             <FormGroup>
+// //               <Label for="dateInput"><strong>Select Date</strong></Label><br/>
+// //               <DatePicker
+// //                 selected={selectedDate}
+// //                 onChange={handleDateChange}
+// //                 dateFormat="MMMM d, yyyy"
+// //                 style={{ width: '300px' }} // Adjust width as needed
+// //                 className="rounded bg-white text-black p-2 text-lg"
+// //                 minDate={new Date()} // Minimum selectable date is today
+// //               />
+// //             </FormGroup>
+// //             {selectedDate && (
+// //               <FormGroup>
+// //                 <Label for="timeInput">Select Time</Label>
+// //                 <Input
+// //                   type="select"
+// //                   name="time"
+// //                   id="timeInput"
+// //                   onChange={(e) => handleTimeChange(e.target.value)}
+// //                 >
+// //                   <option value=""><h6>Select Time</h6></option>
+// //                   {generateTimeSlots().map((timeSlot, index) => (
+// //                     <option key={index} value={timeSlot}>
+// //                       {timeSlot}
+// //                     </option>
+// //                   ))}
+// //                 </Input>
+// //               </FormGroup>
+// //             )}
+// //             <button type="submit"   onMouseEnter={(e) => e.target.style.backgroundColor = '#646cff'} onMouseLeave={(e) => e.target.style.backgroundColor = 'black'}>
+// //             <strong>Book Appointment</strong>
+// //             </button>
+// //           </Form>
+// //         </Col>
+// //       </Row>
+// //     </Container>
+// //     </div>
+  
+// //   );
+// // };
+
+// // export default BookingPage;
+
 // import React, { useState } from 'react';
-// import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+// import { Container, Row, Col, Form, FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
 // import Header from '../components/Header';
@@ -9,6 +122,11 @@
 //   const [selectedHospital, setSelectedHospital] = useState(null);
 //   const [selectedDate, setSelectedDate] = useState(null);
 //   const [selectedTime, setSelectedTime] = useState(null);
+//   const [modalOpen, setModalOpen] = useState(false);
+
+//   const toggleModal = () => {
+//     setModalOpen(!modalOpen);
+//   };
 
 //   const handleHospitalChange = (e) => {
 //     setSelectedHospital(e.target.value);
@@ -27,8 +145,16 @@
 //     e.preventDefault();
 //     // Handle form submission here
 //     console.log('Form submitted:', selectedHospital, selectedDate, selectedTime);
+//     toggleModal(); // Open the modal after form submission
 //   };
 
+//   const handleBookingConfirmation = () => {
+//     // Implement logic to add booking to calendar here
+//     // You can use APIs like Google Calendar API or a third-party service
+//     // For example, you can make an HTTP request to your backend to add the booking to a calendar
+//     console.log('Booking confirmed and added to calendar');
+//     setModalOpen(false); // Close the modal after booking confirmation
+//   };
 
 //   // Generate time slots from 10am to 4pm with 30-minute intervals
 //   const generateTimeSlots = () => {
@@ -51,65 +177,73 @@
 
 //   return (
 //     <div>
-//         <Header />
-//   <Container className="py-5">
-//       <Row>
-//         <Col md={{ size: 6, offset: 3 }}>
-//           <h2 className="text-center mb-4">Book an Appointment</h2>
-//           <Form onSubmit={handleSubmit}>
-//             <FormGroup>
-//               <Label for="hospitalSelect"><strong>Select Hospital</strong></Label>
-//               <Input type="select" name="hospital" id="hospitalSelect" onChange={handleHospitalChange}>
-//                 <option value="">Select Hospital</option>
-//                 {hospitals.map((hospital, index) => (
-//                   <option key={index} value={hospital.NAME}>
-//                     {hospital.NAME}
-//                   </option>
-//                 ))}
-//               </Input>
-//             </FormGroup>
-//             <FormGroup>
-//               <Label for="dateInput"><strong>Select Date</strong></Label><br/>
-//               <DatePicker
-//                 selected={selectedDate}
-//                 onChange={handleDateChange}
-//                 dateFormat="MMMM d, yyyy"
-//                 style={{ width: '300px' }} // Adjust width as needed
-//                 className="rounded bg-white text-black p-2 text-lg"
-//                 minDate={new Date()} // Minimum selectable date is today
-//               />
-//             </FormGroup>
-//             {selectedDate && (
+//       <Header />
+//       <Container className="py-5">
+//         <Row>
+//           <Col md={{ size: 6, offset: 3 }}>
+//             <h2 className="text-center mb-4">Book an Appointment</h2>
+//             <Form onSubmit={handleSubmit}>
 //               <FormGroup>
-//                 <Label for="timeInput">Select Time</Label>
-//                 <Input
-//                   type="select"
-//                   name="time"
-//                   id="timeInput"
-//                   onChange={(e) => handleTimeChange(e.target.value)}
-//                 >
-//                   <option value=""><h6>Select Time</h6></option>
-//                   {generateTimeSlots().map((timeSlot, index) => (
-//                     <option key={index} value={timeSlot}>
-//                       {timeSlot}
+//                 <Label for="hospitalSelect"><strong>Select Hospital</strong></Label>
+//                 <Input type="select" name="hospital" id="hospitalSelect" onChange={handleHospitalChange}>
+//                   <option value="">Select Hospital</option>
+//                   {hospitals.map((hospital, index) => (
+//                     <option key={index} value={hospital.NAME}>
+//                       {hospital.NAME}
 //                     </option>
 //                   ))}
 //                 </Input>
 //               </FormGroup>
-//             )}
-//             <button type="submit"   onMouseEnter={(e) => e.target.style.backgroundColor = '#646cff'} onMouseLeave={(e) => e.target.style.backgroundColor = 'black'}>
-//             <strong>Book Appointment</strong>
-//             </button>
-//           </Form>
-//         </Col>
-//       </Row>
-//     </Container>
+//               <FormGroup>
+//                 <Label for="dateInput"><strong>Select Date</strong></Label><br/>
+//                 <DatePicker
+//                   selected={selectedDate}
+//                   onChange={handleDateChange}
+//                   dateFormat="MMMM d, yyyy"
+//                   style={{ width: '300px' }} // Adjust width as needed
+//                   className="rounded bg-white text-black p-2 text-lg"
+//                   minDate={new Date()} // Minimum selectable date is today
+//                 />
+//               </FormGroup>
+//               {selectedDate && (
+//                 <FormGroup>
+//                   <Label for="timeInput">Select Time</Label>
+//                   <Input
+//                     type="select"
+//                     name="time"
+//                     id="timeInput"
+//                     onChange={(e) => handleTimeChange(e.target.value)}
+//                   >
+//                     <option value=""><h6>Select Time</h6></option>
+//                     {generateTimeSlots().map((timeSlot, index) => (
+//                       <option key={index} value={timeSlot}>
+//                         {timeSlot}
+//                       </option>
+//                     ))}
+//                   </Input>
+//                 </FormGroup>
+//               )}
+//               <Button type="submit"  onMouseEnter={(e) => e.target.style.backgroundColor = '#646cff'} onMouseLeave={(e) => e.target.style.backgroundColor = 'black'}><strong>Book Appointment</strong></Button>
+//             </Form>
+//           </Col>
+//         </Row>
+//       </Container>
+//       <Modal isOpen={modalOpen} toggle={toggleModal}>
+//         <ModalHeader toggle={toggleModal}>Booking Confirmation</ModalHeader>
+//         <ModalBody>
+//           You have selected your booking for {selectedHospital} on {selectedDate && selectedDate.toLocaleDateString()} at {selectedTime}
+//         </ModalBody>
+//         <ModalFooter>
+//           <Button color="primary" onClick={handleBookingConfirmation}>Confirm</Button>{' '}
+//           <Button color="secondary" onClick={toggleModal}>Cancel</Button>
+//         </ModalFooter>
+//       </Modal>
 //     </div>
-  
 //   );
 // };
 
 // export default BookingPage;
+
 
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -148,20 +282,11 @@ const BookingPage = ({ hospitals }) => {
     toggleModal(); // Open the modal after form submission
   };
 
-  const handleBookingConfirmation = () => {
-    // Implement logic to add booking to calendar here
-    // You can use APIs like Google Calendar API or a third-party service
-    // For example, you can make an HTTP request to your backend to add the booking to a calendar
-    console.log('Booking confirmed and added to calendar');
-    setModalOpen(false); // Close the modal after booking confirmation
-  };
-
-  // Generate time slots from 10am to 4pm with 30-minute intervals
   const generateTimeSlots = () => {
     const timeSlots = [];
     let hour = 10;
     let minute = 0;
-
+  
     while (hour < 16 || (hour === 16 && minute === 0)) {
       const formattedTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
       timeSlots.push(formattedTime);
@@ -171,8 +296,51 @@ const BookingPage = ({ hospitals }) => {
         minute = 0;
       }
     }
-
+  
     return timeSlots;
+  };
+  
+
+  const handleBookingConfirmation = () => {
+    // Generate .ics file content
+    const icsContent = generateICSContent(selectedHospital, selectedDate, selectedTime);
+    // Download the .ics file
+    downloadICSFile(icsContent, 'booking.ics');
+    setModalOpen(false); // Close the modal after booking confirmation
+  };
+
+  // Function to generate .ics file content
+  const generateICSContent = (hospital, date, time) => {
+    const eventDateTime = new Date(date);
+    const [hours, minutes] = time.split(':');
+    eventDateTime.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+
+    const eventStartDate = eventDateTime.toISOString().replace(/-/g, '').slice(0, 8);
+    const eventStartTime = eventDateTime.toISOString().slice(11, 19);
+    const eventEndDate = eventDateTime.toISOString().replace(/-/g, '').slice(0, 8);
+    const eventEndTime = eventDateTime.toISOString().slice(11, 19);
+
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:${eventStartDate}T${eventStartTime}
+DTEND:${eventEndDate}T${eventEndTime}
+SUMMARY:Booking at ${hospital}
+END:VEVENT
+END:VCALENDAR`;
+
+    return icsContent;
+  };
+
+  // Function to download .ics file
+  const downloadICSFile = (content, filename) => {
+    const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
   };
 
   return (
@@ -223,7 +391,7 @@ const BookingPage = ({ hospitals }) => {
                   </Input>
                 </FormGroup>
               )}
-              <Button type="submit"  onMouseEnter={(e) => e.target.style.backgroundColor = '#646cff'} onMouseLeave={(e) => e.target.style.backgroundColor = 'black'}><strong>Book Appointment</strong></Button>
+              <Button type="submit"><strong>Book Appointment</strong></Button>
             </Form>
           </Col>
         </Row>
@@ -231,7 +399,7 @@ const BookingPage = ({ hospitals }) => {
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Booking Confirmation</ModalHeader>
         <ModalBody>
-          You have selected your booking for {selectedHospital} on {selectedDate && selectedDate.toLocaleDateString()} at {selectedTime}
+          Your appointment at {selectedHospital} on {selectedDate && selectedDate.toLocaleDateString()} at {selectedTime} has been booked successfully.
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={handleBookingConfirmation}>Confirm</Button>{' '}
@@ -243,4 +411,3 @@ const BookingPage = ({ hospitals }) => {
 };
 
 export default BookingPage;
-
