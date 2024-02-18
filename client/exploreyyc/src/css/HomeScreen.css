@@ -1,0 +1,22 @@
+.home-screen {
+    padding: 100px 0;
+  }
+  
+  .home-screen h1 {
+    color: #333;
+  }
+  
+  .home-screen p {
+    color: #666;
+  }
+  
+  .home-screen .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .home-screen .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
