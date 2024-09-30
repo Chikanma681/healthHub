@@ -93,8 +93,7 @@ const Vaccines = () => {
     return deg * (Math.PI / 180);
   };
 
-  // Google Maps API Key
-  const apiKey = 'AIzaSyDHGdazSoDmRV6aM7-zH0VQMhP8PLsfafk';
+  const apiKey = process.env.MAPS_API;
 
   const onMarkerClick = (location) => {
     setSelectedLocation(location);
